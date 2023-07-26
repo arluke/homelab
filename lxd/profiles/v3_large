@@ -1,5 +1,6 @@
 config:
   boot.host_shutdown_timeout: "60"
+  environment.IS_VMACHINE: "true"
   limits.cpu: "3"
   limits.memory: 6GB
   limits.memory.enforce: soft
