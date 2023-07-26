@@ -1,0 +1,22 @@
+config:
+  boot.host_shutdown_timeout: "60"
+  environment.ISCONTAINER: "true"
+  limits.cpu: "1"
+  limits.cpu.allowance: 50%
+  limits.memory: 2GB
+  limits.memory.enforce: soft
+  security.privileged: "false"
+  snapshots.expiry: 30d
+description: 'LXD Micro  : .5 vCPU / 2GB /  8GiB'
+devices:
+  eth0:
+    network: lxd-direct
+    type: nic
+  rootfs:
+    path: /
+    pool: lxd
+    required: "true"
+    size: 8GiB
+    type: disk
+name: c0.micro
+used_by: []
