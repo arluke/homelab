@@ -1,0 +1,22 @@
+config:
+  boot.host_shutdown_timeout: "60"
+  environment.IS_CONTAINER: "true"
+  limits.cpu: "2"
+  limits.cpu.allowance: 100%
+  limits.memory: 4GB
+  limits.memory.enforce: soft
+  security.privileged: "false"
+  snapshots.expiry: 30d
+description: 'LXD Medium :  2 vCPU / 4GB / 20GiB'
+devices:
+  eth0:
+    network: lxd-direct
+    type: nic
+  rootfs:
+    path: /
+    pool: lxd
+    required: "true"
+    size: 20GiB
+    type: disk
+name: c2_medium
+used_by: []
