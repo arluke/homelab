@@ -16,5 +16,5 @@ devices:
     required: "true"
     size: 20GiB
     type: disk
-name: v1.small
+name: v1_small
 used_by: []
