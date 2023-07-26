@@ -3,4 +3,4 @@ config:
 description: VM Secure Boot Disabled
 devices: {}
 name: vm.secureboot.off
-used_by:
+used_by: []
