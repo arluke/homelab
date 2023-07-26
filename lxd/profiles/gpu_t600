@@ -7,5 +7,5 @@ devices:
   T600-video:
     address: "83:00.0"
     type: pci
-name: gpu.t600
+name: gpu_t600
 used_by: []
