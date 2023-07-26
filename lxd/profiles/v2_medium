@@ -1,0 +1,19 @@
+config:
+  boot.host_shutdown_timeout: "60"
+  limits.cpu: "2"
+  limits.memory: 4GB
+  limits.memory.enforce: soft
+  snapshots.expiry: 30d
+description: 'QEMU Medium  :  2 vCPU / 4GB / 40GiB'
+devices:
+  eth0:
+    network: lxd-direct
+    type: nic
+  rootfs:
+    path: /
+    pool: lxd
+    required: "true"
+    size: 40GiB
+    type: disk
+name: v2_medium
+used_by: []
