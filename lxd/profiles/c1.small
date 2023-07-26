@@ -1,0 +1,22 @@
+config:
+  boot.host_shutdown_timeout: "60"
+  environment.ISCONTAINER: "true"
+  limits.cpu: "1"
+  limits.cpu.allowance: 100%
+  limits.memory: 2GB
+  limits.memory.enforce: soft
+  security.privileged: "false"
+  snapshots.expiry: 30d
+description: 'LXD Small  :  1 vCPU / 2GB / 16GiB'
+devices:
+  eth0:
+    network: lxd-direct
+    type: nic
+  rootfs:
+    path: /
+    pool: lxd
+    required: "true"
+    size: 16GiB
+    type: disk
+name: c1.small
+used_by: []
