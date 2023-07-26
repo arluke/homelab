@@ -1,6 +1,6 @@
 config:
   boot.host_shutdown_timeout: "60"
-  environment.ISCONTAINER: "true"
+  environment.IS_CONTAINER: "true"
   limits.cpu: "1"
   limits.cpu.allowance: 100%
   limits.memory: 2GB
@@ -18,5 +18,5 @@ devices:
     required: "true"
     size: 16GiB
     type: disk
-name: c1.small
+name: c1_small
 used_by: []
