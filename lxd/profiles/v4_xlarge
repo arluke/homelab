@@ -1,0 +1,19 @@
+config:
+  boot.host_shutdown_timeout: "60"
+  limits.cpu: "4"
+  limits.memory: 8GB
+  limits.memory.enforce: soft
+  snapshots.expiry: 30d
+description: 'QEMU X-Large :  4 vCPU / 8GB / 80GiB'
+devices:
+  eth0:
+    network: lxd-direct
+    type: nic
+  rootfs:
+    path: /
+    pool: lxd
+    required: "true"
+    size: 80GiB
+    type: disk
+name: v4_xlarge
+used_by: []
