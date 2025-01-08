@@ -1,0 +1,61 @@
+config:
+  cloud-init.user-data: |
+    #cloud-config
+    disable_root: false
+    package_upgrade: true
+    packages:
+      - curl
+      - nftables
+      - openssh-server
+    timezone: America/Phoenix
+    runcmd:
+      - [ passwd, --lock, root ]
+      - [ usermod, --shell, /sbin/nologin, root ]
+      - [ curl, https://raw.githubusercontent.com/arluke/homelab/refs/heads/main/configs/nftables.conf, --output, /etc/nftables.conf ]
+      - [ curl, https://raw.githubusercontent.com/arluke/homelab/refs/heads/main/configs/defaults.vim, --output, /usr/share/vim/vim90/defaults.vim ]
+      - [ nft, --file, /etc/nftables.conf ]
+    groups:
+      - ansible
+      - <<adminusr>>
+    users:
+      - name: ansible
+        gecos: Ansible user account
+        primary_group: ansible
+        lock_password: true
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        homedir: /home/ansible
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ssh-ed25519 <<-----------------------------SSH KEY---------------------------->> ansible
+      - name: <<adminusr>>
+        gecos: "Universal Administrator"
+        primary_group: <<adminusr>>
+        groups: sudo
+        lock_password: "true"
+        homedir: /home/<<adminusr>>
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ssh-ed25519 <<-----------------------------SSH KEY---------------------------->> <<adminusr>>
+                        
+    chpasswd:
+      expire: true
+      users:
+        - {name: <<adminusr>>, password: <<passwd>>, type: text}
+    ssh_pwauth: false
+  environment.TZ: America/Phoenix
+  limits.cpu: "1"
+  limits.cpu.allowance: 50%
+  limits.cpu.priority: "5"
+  limits.disk.priority: "5"
+  limits.memory: 1GiB
+  limits.memory.enforce: soft
+  limits.memory.swap: "true"
+  security.privileged: "false"
+  security.protection.delete: "false"
+  security.secureboot: "false"
+  snapshots.expiry: 30d
+description: Include cloud-init config
+devices: {}
+name: cloud
+used_by: []
+project: default
