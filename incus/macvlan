@@ -1,0 +1,10 @@
+config:
+  parent: enp66s0f1
+description: 'parent: enp66s0f1'
+name: lxd-direct
+type: macvlan
+used_by: []
+managed: true
+status: Created
+locations:
+- none
