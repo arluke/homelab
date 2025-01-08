@@ -1,9 +1,0 @@
-config: {}
-description: 'File Share: Media (read only)'
-devices:
-  media:
-    path: /media
-    source: /tank/media
-    type: disk
-name: fs_media_ro
-used_by: []

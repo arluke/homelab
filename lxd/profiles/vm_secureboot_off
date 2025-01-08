@@ -1,6 +1,0 @@
-config:
-  security.secureboot: "false"
-description: VM Secure Boot Disabled
-devices: {}
-name: vm_secureboot_off
-used_by: []
