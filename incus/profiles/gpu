@@ -1,0 +1,12 @@
+config: {}
+description: Enable NVIDIA T600
+devices:
+  t600-audio:
+    address: "85:00.1"
+    type: pci
+  t600-gpu:
+    address: "85:00.0"
+    type: pci
+name: dev.gpu
+used_by: []
+project: default
