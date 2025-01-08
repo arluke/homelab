@@ -1,0 +1,26 @@
+config:
+  boot.autorestart: "false"
+  boot.autostart: "false"
+  environment.TZ: America/Phoenix
+  limits.cpu: "1"
+  limits.cpu.allowance: 50%
+  limits.cpu.priority: "5"
+  limits.disk.priority: "5"
+  limits.memory: 1GiB
+  limits.memory.enforce: soft
+  limits.memory.swap: "true"
+  security.privileged: "false"
+  security.protection.delete: "false"
+  security.secureboot: "false"
+  snapshots.expiry: 30d
+description: System Container (Micro)
+devices:
+  rootfs:
+    path: /
+    pool: flashy
+    required: "true"
+    size: 8GB
+    type: disk
+name: i0.micro
+used_by:
+project: default
