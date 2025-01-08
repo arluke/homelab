@@ -1,0 +1,12 @@
+config:
+  source: flashy/incus
+  volatile.initial_source: flashy/incus
+  volume.zfs.blocksize: 64KiB
+  zfs.pool_name: flashy/incus
+description: ""
+name: flashy
+driver: zfs
+used_by: []
+status: Created
+locations:
+- none
