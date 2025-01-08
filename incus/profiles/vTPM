@@ -1,0 +1,9 @@
+config: {}
+description: Enable Trusted Platform Module (TPM)
+devices:
+  vtpm:
+    path: /dev/tpm0
+    type: tpm
+name: dev.tpm
+used_by: []
+project: default
