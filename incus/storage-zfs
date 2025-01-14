@@ -3,6 +3,7 @@ config:
   volatile.initial_source: flashy/incus
   volume.zfs.blocksize: 64KiB
   zfs.pool_name: flashy/incus
+  zfs.export: "false"
 description: ""
 name: flashy
 driver: zfs
