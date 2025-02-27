@@ -8,7 +8,7 @@ DNS_RECORD_NAME="<<DOMAIN>>"
 DNS_RECORD_TYPE="A"
 
 CURRENT_DATETIME="$(date +'%Y-%m-%d %H:%M:%S')"
-LOGFILE=/root/update-ddns/"$(date +'%Y%m%d')"_update-ddns.log
+LOGFILE=/var/log/update-ddns/"$(date +'%Y%m%d')"_update-ddns.log
 
 # Define the full paths to commands to be able run this script with cron
 CURL="/usr/bin/curl"
