@@ -6,6 +6,7 @@ DATADISK0=/dev/disk/by-id/nvme-WD_BLACK_SN850X_4000GB_xxxxxxxxxxxx
 DATADISK1=/dev/disk/by-id/nvme-WD_BLACK_SN850X_4000GB_xxxxxxxxxxxx
 NEWUSER=arluke
 HOSTNAME=artemis
+DOMAIN=
 ```
 
 ### Disks
@@ -43,10 +44,6 @@ mount -o defaults,discard,subvol=/@ /dev/mapper/root /mnt && \
 mkdir -p /mnt/var/cache/pacman && \
 btrfs subvol create /mnt/var/log /mnt/var/cache/pacman/pkg;
 
-mount --mkdir -o defaults,discard /dev/mapper/data /mnt/home && \
-btrfs subvol create /mnt/home/@home && \
-umount /mnt/home && \
-mount -o defaults,discard,subvol=/@home /dev/mapper/data /mnt/home;
 
 mount --mkdir -o uid=0,gid=0,fmask=0077,dmask=0077,discard /dev/${ROOTDISK} /mnt/efi;
 ```
@@ -60,13 +57,19 @@ swapon /mnt/.swapfile;
 + Create fstab in new environment
 + set nvim as the default editor
 + set hostname
++ set hosts
++ set locale
 + chroot
 ```
-pacstrap -K /mnt base base-devel btrfs-progs efibootmgr efitools gdisk intel-ucode linux linux-firmware \
-    linux-headers mdadm neovim networkmanager openssh sbctl sbsigntools sudo systemd-ukify;
+pacstrap -K /mnt base base-devel btrfs-progs efibootmgr efitools gdisk intel-ucode kitty linux linux-firmware \
+    linux-headers mdadm mesa neovim networkmanager openssh sbctl sbsigntools sudo systemd-ukify;
 genfstab -U /mnt >> /mnt/etc/fstab;
 printf '\nEDITOR=nvim' >> /mnt/etc/bash.bashrc;
-printf '${HOSTNAME}' > /mnt/etc/hostname;
+printf "%h" $HOSTNAME > /mnt/etc/hostname;
+printf "127.0.0.1        %h.%d    %h\n" $HOSTNAME $DOMAIN >> /etc/hosts;
+printf "127.0.0.1        $HOSTNAME.$DOMAIN    $HOSTNAME\n" >> /etc/hosts;
+printf "::1              $HOSTNAME.$DOMAIN    $HOSTNAME\n" >> /etc/hosts;
+sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /mnt/etc/locale.gen;
 arch-chroot /mnt;
 ```
 
@@ -74,6 +77,19 @@ Create Encryption Key for /dev/md/home
 ```
 openssl genpkey -algorithm RSA -out /etc/cryptsetup-keys.d/data.pem;
 cryptsetup luksAddKey /dev/mapper/data -S 30 /etc/cryptsetup-keys.d/data.pem;
-echo "data     UUID=$(blkid -s UUID -o value /dev/mapper/data)     /etc/cryptsetup-keys.d/data.pem     luks,discard,tries=3" > /etc/crypttab";
-echo "UUID=${uuid}     /home     btrfs     rw,relatime,ssd,discard,space_cache=v2,subvol=/@home     0 0 >> /etc/fstab"
+echo "data     UUID=$(blkid -s UUID -o value /dev/md/data)     /etc/cryptsetup-keys.d/data.pem     luks,discard,tries=3" > /etc/crypttab;
+echo "UUID=$(blkid -s UUID -o value /dev/mapper/data)      /home     btrfs     rw,relatime,ssd,discard,space_cache=v2,subvol=/@home     0 0 >> /etc/fstab"
 ```
+
+
+```
+groupadd --gid 5001 ssh-users;
+groupadd --gid 6000 arluke;
+useradd --uid 6000 --gid 6000 --groups arluke,ssh-users,wheel --shell /bin/bash --home /home/arluke --create-home arluke;
+printf "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/00_wheel;
+passwd arluke
+```
+
+
+
+
